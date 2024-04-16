@@ -127,6 +127,13 @@ class HBNBCommand(cmd.Cmd):
             return
         new_instance = HBNBCommand.classes[args_list[0]]()
 
+        attr_dict = {
+            "name": "name",
+            "latitude": "latitude",
+            "longitude": "longitude",
+            "number_rooms": "number_rooms",
+        }
+
         for i in range(1, len(args_list)):
             # Check if the argument is in the form key=value
             if '=' in args_list[i]:
