@@ -129,9 +129,22 @@ class HBNBCommand(cmd.Cmd):
 
         attr_dict = {
             "name": "name",
+            "state_id": "state_id",
+            "city_id": "city_id",
+            "user_id": "user_id",
             "latitude": "latitude",
             "longitude": "longitude",
             "number_rooms": "number_rooms",
+            "number_bathrooms": "number_bathrooms",
+            "max_guest": "max_guest",
+            "price_by_night": "price_by_night",
+            "description": "description",
+            "amenity_ids": "amenity_ids",
+            "text": "text",
+            "email": "email",
+            "password": "password",
+            "first_name": "first_name",
+            "last_name": "last_name",
         }
 
         for i in range(1, len(args_list)):
@@ -140,8 +153,13 @@ class HBNBCommand(cmd.Cmd):
                 params = args_list[i].split('=')
                 attr_name = params[0].strip()
                 attr_value = params[1].strip('\"').replace('_', ' ')
-                if attr_name == "name":
-                    new_instance.name = attr_value
+
+                # Check if the attribute is a number
+                if attr_name in HBNBCommand.types:
+                    attr_value = HBNBCommand.types[attr_name](attr_value)
+
+                if attr_name in attr_dict:
+                    setattr(new_instance, attr_dict[attr_name], attr_value)
 
         storage.save()
         print(new_instance.id)
