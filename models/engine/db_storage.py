@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
 import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class DBStorage:
@@ -32,6 +34,10 @@ class DBStorage:
         
         # if 'hbnb_dev_db' not in self.__engine.table_names():
         #     Base.metadata.create_all(self.__engine)
+        
+        # Create a new scoped session
+        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        self.__session = scoped_session(Session())
         
         if hbnb_dev == 'test':
             Base.metadata.drop_all(self.__engine)
