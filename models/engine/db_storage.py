@@ -30,8 +30,8 @@ class DBStorage:
                                               hbnb_dev_host, hbnb_dev_db),
                                       pool_pre_ping=True)
         
-        if 'hbnb_dev_db' not in self.__engine.table_names():
-            Base.metadata.create_all(self.__engine)
+        # if 'hbnb_dev_db' not in self.__engine.table_names():
+        #     Base.metadata.create_all(self.__engine)
         
         if hbnb_dev == 'test':
             Base.metadata.drop_all(self.__engine)
