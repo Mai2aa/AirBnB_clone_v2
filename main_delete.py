@@ -23,6 +23,7 @@ print("New State: {}".format(new_state))
 all_states = fs.all(State)
 print("All States: {}".format(len(all_states.keys())))
 for state_key in all_states.keys():
+    # print(f"Here is the key: {state_key}\n\n")
     print(all_states[state_key])
 
 # Create another State
@@ -46,3 +47,7 @@ all_states = fs.all(State)
 print("All States: {}".format(len(all_states.keys())))
 for state_key in all_states.keys():
     print(all_states[state_key])
+
+# All objects
+# all_objects = fs.all()
+
