@@ -1,8 +1,6 @@
 #!/usr/bin/python3
 """This module defines a base class for all models in our hbnb clone"""
 import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
 
 
 class DBStorage:
@@ -31,14 +29,7 @@ class DBStorage:
                                       .format(hbnb_dev_user, hbnb_dev_pwd,
                                               hbnb_dev_host, hbnb_dev_db),
                                       pool_pre_ping=True)
-        
-        # if 'hbnb_dev_db' not in self.__engine.table_names():
-        #     Base.metadata.create_all(self.__engine)
-        
-        # Create a new scoped session
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(Session())
-        
+
         if hbnb_dev == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -52,18 +43,38 @@ class DBStorage:
         from models.amenity import Amenity
         from models.review import Review
 
-        classes = {
-                    'BaseModel': BaseModel, 'User': User, 'Place': Place,
-                    'State': State, 'City': City, 'Amenity': Amenity,
-                    'Review': Review
-                  }
-        if cls is not None:
-            objs = self.__session.query(classes[cls]).all()
+        # classes = {
+        #             'BaseModel': BaseModel, 'User': User, 'Place': Place,
+        #             'State': State, 'City': City, 'Amenity': Amenity,
+        #             'Review': Review
+        #           }
+        # if cls is not None:
+        #     objs = self.__session.query(classes[cls]).all()
+        # else:
+        #     objs = []
+        #     for cls in classes.values():
+        #         objs += self.__session.query(cls).all()
+        # return objs
+    
+        session = self.__session
+        objs_dict = {}
+        if cls is None:
+            tables_list = [State, City, User, Place, Review, Amenity]
+
         else:
-            objs = []
-            for cls in classes.values():
-                objs += self.__session.query(cls).all()
-        return objs
+            if type(cls) == str:
+                cls = eval(cls)
+
+            tables_list = [cls]
+
+        for table in tables_list:
+            objects = session.query(table).all()
+
+            for item in objects:
+                key = "{}.{}".format(item.__class__.__name__, item.id)
+                objs_dict[key] = item
+
+        return objs_dict
 
     def new(self, obj):
         """Adds new object to storage"""
@@ -83,18 +94,14 @@ class DBStorage:
         from sqlalchemy.orm import sessionmaker, scoped_session
         from models.base_model import Base
 
-        # Reflect all tables in the database
-        # Base.metadata.reflect(bind=self.__engine)
-
-        # Drop all existing tables
-        # Base.metadata.drop_all(bind=self.__engine)
-
         # Create all tables defined in your Base class
         Base.metadata.create_all(bind=self.__engine)
 
         # Create a new scoped session
-        Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
-        self.__session = scoped_session(Session())
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session()
         
     def close(self):
         """Closes the session"""
