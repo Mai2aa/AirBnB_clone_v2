@@ -78,7 +78,7 @@ class DBStorage:
         from models.base_model import Base
 
         # Reflect all tables in the database
-        Base.metadata.reflect(bind=self.__engine)
+        # Base.metadata.reflect(bind=self.__engine)
 
         # Drop all existing tables
         Base.metadata.drop_all(bind=self.__engine)
