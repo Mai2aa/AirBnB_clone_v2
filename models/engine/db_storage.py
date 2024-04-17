@@ -27,7 +27,7 @@ class DBStorage:
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(hbnb_dev, hbnb_dev_pwd,
-                                              'localhost', hbnb_dev_db),
+                                              hbnb_dev_host, hbnb_dev_db),
                                       pool_pre_ping=True)
         
         if 'hbnb_dev_db' not in self.__engine.table_names():
