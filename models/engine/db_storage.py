@@ -84,7 +84,7 @@ class DBStorage:
         # Base.metadata.drop_all(bind=self.__engine)
 
         # Create all tables defined in your Base class
-        # Base.metadata.create_all(bind=self.__engine)
+        Base.metadata.create_all(bind=self.__engine)
 
         # Create a new scoped session
         Session = sessionmaker(bind=self.__engine, expire_on_commit=False)
