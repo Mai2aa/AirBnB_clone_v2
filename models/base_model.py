@@ -35,10 +35,14 @@ class BaseModel:
                 if not hasattr(self, key):
                     setattr(self, key, value)
 
+
     def __str__(self):
-        """Returns a string representation of the instance"""
-        cls = (str(type(self)).split('.')[-1]).split('\'')[0]
-        return '[{}] ({}) {}'.format(cls, self.id, self.__dict__)
+        """String representation of BaseModel instance"""
+        attrs = self.__dict__.copy()
+        attrs.pop('_sa_instance_state', None)  # Remove SQLAlchemy state
+
+        return f"[{self.__class__.__name__}] ({self.id}) {attrs}"
+
 
     def save(self):
         """Updates updated_at with current time when instance is changed"""
