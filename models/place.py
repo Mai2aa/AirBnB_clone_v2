@@ -25,13 +25,19 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     reviews = relationship("Review", cascade="all, delete", backref="place")
     place_amenity = Table('place_amenity', Base.metadata,
-                          Column('place_id', String(60), ForeignKey('places.id'), primary_key=True, nullable=False),
-                          Column('amenity_id', String(60), ForeignKey('amenities.id'), primary_key=True, nullable=False)
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True, nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True, nullable=False)
                           )
+
     @property
     def amenities(self):
         """Getter attribute amenities"""
-        return [amenity for amenity in self.amenities if amenity.id in self.amenity_ids]
+        return [amenity for amenity in self.amenities
+                if amenity.id in self.amenity_ids]
 
     @amenities.setter
     def amenities(self, amenity):

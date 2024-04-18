@@ -23,7 +23,7 @@ class DBStorage:
         hbnb_dev_db = os.getenv('HBNB_MYSQL_DB')
         hbnb_dev_user = os.getenv('HBNB_MYSQL_USER')
         hbnb_dev_pwd = os.getenv('HBNB_MYSQL_PWD')
-        hbnb_dev_host = os.getenv('HBNB_MYSQL_HOST')        
+        hbnb_dev_host = os.getenv('HBNB_MYSQL_HOST')
 
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(hbnb_dev_user, hbnb_dev_pwd,
@@ -55,14 +55,14 @@ class DBStorage:
         #     for cls in classes.values():
         #         objs += self.__session.query(cls).all()
         # return objs
-    
+
         session = self.__session
         objs_dict = {}
         if cls is None:
             tables_list = [State, City, User, Place, Review, Amenity]
 
         else:
-            if type(cls) == str:
+            if isinstance(cls, str):
                 cls = eval(cls)
 
             tables_list = [cls]
@@ -102,7 +102,7 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session()
-        
+
     def close(self):
         """Closes the session"""
         self.__session.close()
