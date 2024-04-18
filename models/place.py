@@ -35,13 +35,23 @@ class Place(BaseModel, Base):
                           )
 
     @property
+    def amenity_ids(self):
+        """Getter for amenity_ids"""
+        return [amenity.id for amenity in self.amenities_list]
+
+    @amenity_ids.setter
+    def amenity_ids(self, amenity_id):
+        """Setter for amenity_ids"""
+        if amenity_id not in self.amenity_ids:
+            self.amenities_list.append(amenity_id)
+    
+    @property
     def amenities(self):
         """Getter attribute amenities"""
-        return [amenity for amenity in self.amenities_list
-                if amenity.id in self.amenity_ids]
+        return self.amenities_list
 
     @amenities.setter
     def amenities(self, amenity):
         """Setter attribute amenities"""
         if isinstance(amenity, Amenity):
-            self.amenity_ids.append(amenity.id)
+            self.amenity_ids = amenity.id
