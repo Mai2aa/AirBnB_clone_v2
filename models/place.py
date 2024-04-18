@@ -8,6 +8,7 @@ from models.review import Review
 from sqlalchemy import Table, Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.amenity import Amenity
+from models.state import State
 
 
 class Place(BaseModel, Base):
@@ -36,7 +37,7 @@ class Place(BaseModel, Base):
     @property
     def amenities(self):
         """Getter attribute amenities"""
-        return [amenity for amenity in self.amenities
+        return [amenity for amenity in self.amenities_list
                 if amenity.id in self.amenity_ids]
 
     @amenities.setter
