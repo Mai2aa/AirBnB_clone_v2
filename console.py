@@ -143,7 +143,7 @@ class HBNBCommand(cmd.Cmd):
                     val = val.replace("_", " ")
                 elif type(val) not in [int, float]:
                     continue
-                exec(f'instance.{key} = {val}')
+                instance.__dict__[key] = val
             except Exception:
                 continue
 
