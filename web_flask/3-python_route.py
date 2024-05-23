@@ -22,7 +22,7 @@ def c_route(text):
 
 
 @app.route('/python/<text>', strict_slashes=False)
-def py_route(text="is cool"):
+def py_route(text="is_cool"):
     return "Python " + text.replace('_', ' ')
 
 
