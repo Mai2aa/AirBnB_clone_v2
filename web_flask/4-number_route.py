@@ -31,6 +31,8 @@ def py_route(text="is cool"):
 def num_route(n):
     if n is int:
         return n + " is a number"
+    else:
+        abort(404)
 
 
 if __name__ == "__main__":
