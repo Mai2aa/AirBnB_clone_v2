@@ -27,12 +27,9 @@ def py_route(text="is cool"):
     return "Python " + text.replace('_', ' ')
 
 
-@app.route('/number/<n>', strict_slashes=False)
+@app.route('/number/<int:n>', strict_slashes=False)
 def num_route(n):
-    if n is int:
-        return n + " is a number"
-    else:
-        abort(404)
+    return f"{n} is a number"
 
 
 if __name__ == "__main__":
