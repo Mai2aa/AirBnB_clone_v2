@@ -34,12 +34,7 @@ def num_route(n):
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
-    render_template('5-number.html', number=n)
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return 404
+    return render_template('5-number.html', number=n)
 
 
 if __name__ == "__main__":
