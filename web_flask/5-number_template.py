@@ -37,5 +37,10 @@ def number_template(n):
     render_template('5-number.html', number=n)
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    return 404
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)
